@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { isAuthed } from "./auths.js";
 import { userRouter } from "./routes/user/user.js";
 import { blogRouter } from "./routes/blog/blog.js";
+import { dbConnection } from "./db.js";
 
 
 
@@ -12,11 +13,10 @@ import { blogRouter } from "./routes/blog/blog.js";
 dotenv.config()
 
 const app = express();
-const {URL,PORT}=process.env
+dbConnection()
+const {PORT}=process.env
 
-mongoose.connect(URL)
-.then(()=>console.log("connected successfully to database "))
-.catch(()=>console.log("error connecting"));
+
 
 
 
