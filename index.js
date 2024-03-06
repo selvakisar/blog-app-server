@@ -14,7 +14,10 @@ dotenv.config()
 const {URL,PORT}=process.env
 
 
-mongoose.connect(URL)
+mongoose.connect(URL,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
 .then(()=>console.log("Connected to database"))
 .catch((err)=>console.log(err,"error connecting"))
 
@@ -35,6 +38,6 @@ app.use(express.json())
 app.use('/user',userRouter)
 app.use('/blogs',isAuthed,blogRouter)
 
-const port = process.env.PORT||8000
 
-app.listen(port,()=>console.log(`listening on ${port}`))
+
+app.listen(PORT,()=>console.log(`listening on ${PORT}`))
