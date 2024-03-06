@@ -7,43 +7,20 @@ import { userRouter } from "./routes/user/user.js";
 import { blogRouter } from "./routes/blog/blog.js";
 
 
-const app = express();
 
 
 dotenv.config()
 
-mongoose.connect(process.env.URI, {
+const app = express();
+const {URL,PORT}=process.env
 
-  useNewUrlParser: "true",
-  useUnifiedTopology: "true"
-
-})
-mongoose.connection.on("error", err => {
-
-  console.log("err", err)
-
-})
-mongoose.connection.on("connected", (err, res) => {
-
-  console.log("mongoose is connected")
-
-})
-// mongoose.connect(process.env.URI,{
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   })
-// .then(()=>console.log("Connected to database"))
-// .catch((err)=>console.log(err,"error connecting"))
+mongoose.connect(URL)
+.then(()=>console.log("connected successfully to database "))
+.catch(()=>console.log("error connecting"));
 
 
 
-app.use(
-    cors({
-        orgin:"http://localhost:3000",
-        methods:"GET,POST,PUT,DELETE",
-        credentials:true
-    })
-)
+app.use(cors())
 app.use(express.json())
 
 
@@ -54,4 +31,4 @@ app.use('/blogs',isAuthed,blogRouter)
 
 
 
-app.listen(process.env.PORT,()=>console.log(`listening on ${process.env.PORT}`))
+app.listen(PORT,()=>console.log(`listening on ${PORT}`))
