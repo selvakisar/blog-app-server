@@ -11,15 +11,29 @@ const app = express();
 
 
 dotenv.config()
-const {URL,PORT}=process.env
 
+mongoose.connect(process.env.URI, {
 
-mongoose.connect(URL,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-.then(()=>console.log("Connected to database"))
-.catch((err)=>console.log(err,"error connecting"))
+  useNewUrlParser: "true",
+  useUnifiedTopology: "true"
+
+})
+mongoose.connection.on("error", err => {
+
+  console.log("err", err)
+
+})
+mongoose.connection.on("connected", (err, res) => {
+
+  console.log("mongoose is connected")
+
+})
+// mongoose.connect(process.env.URI,{
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   })
+// .then(()=>console.log("Connected to database"))
+// .catch((err)=>console.log(err,"error connecting"))
 
 
 
@@ -40,4 +54,4 @@ app.use('/blogs',isAuthed,blogRouter)
 
 
 
-app.listen(PORT,()=>console.log(`listening on ${PORT}`))
+app.listen(process.env.PORT,()=>console.log(`listening on ${process.env.PORT}`))
