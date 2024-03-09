@@ -49,6 +49,30 @@ router.get('/user',async (req,res)=>{
 })
 
 
+<<<<<<< HEAD
+=======
+router.post('/add',upload.single('image'), async(req,res)=>{
+    try {
+        //date for the blog post
+        const postDate = new Date().toLocaleString();
+        const {imagePath}=req.file.path
+        //use the user Id from the auth token
+        
+        const userId =req.user._id
+
+        const blog= new Blog({
+            ...req.body,date:postDate,user:userId,
+            image:imagePath
+        })
+        await blog.save();
+
+        res.status(201).send(' blog added Successfully')
+    } catch (error) {
+        console.error(error)
+        res.status(500).send('internal error creating on upload')
+    }
+})
+>>>>>>> b592569f8248dcfd94214e04e0f1680e34ac75e8
 
 
 router.put('/edit/:id',async (req,res)=>{
