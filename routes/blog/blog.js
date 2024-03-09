@@ -10,16 +10,6 @@ import  path from 'path'
 const router =express.Router();
 
 
-const storage = multer.diskStorage({
-    destination:function(req, file,cb){
-        cb(null,'public/uploads')
-    },
-    filename:function(req,file,cb){
-        cb(null,file.fieldname+'-'+Date.now()+path.extname(file.originalname))
-    }
-})
-
-const upload=multer({storage})
 //all blogs 
 
 router.get ('/all',async (req,res)=>{
@@ -59,27 +49,6 @@ router.get('/user',async (req,res)=>{
 })
 
 
-router.post('/add',upload.single('image'), async(req,res)=>{
-    try {
-        //date for the blog post
-        const postDate = new Date().toLocaleString();
-        const imagePath=req.file.path
-        //use the user Id from the auth token
-        
-        const userId =req.user._id
-
-        const blog= new Blog({
-            ...req.body,date:postDate,user:userId,
-            image:imagePath
-        })
-        await blog.save();
-
-        res.status(201).send(' blog added Successfully')
-    } catch (error) {
-        console.error(error)
-        res.status(500).send('internal error creating on upload')
-    }
-})
 
 
 router.put('/edit/:id',async (req,res)=>{
