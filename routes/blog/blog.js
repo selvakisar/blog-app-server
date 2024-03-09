@@ -63,7 +63,7 @@ router.post('/add',upload.single('image'), async(req,res)=>{
     try {
         //date for the blog post
         const postDate = new Date().toLocaleString();
-        const imagePath=req.file.path
+        const {imagePath}=req.file.path
         //use the user Id from the auth token
         
         const userId =req.user._id
