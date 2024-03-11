@@ -1,7 +1,6 @@
 import express from 'express';
 import { Blog } from '../../models/Blog.js';
-import multer from 'multer';
-import  path from 'path'
+
 
 
 
@@ -10,16 +9,8 @@ import  path from 'path'
 const router =express.Router();
 
 
-const storage = multer.diskStorage({
-    destination:function(req, file,cb){
-        cb(null,'public/uploads')
-    },
-    filename:function(req,file,cb){
-        cb(null,file.fieldname+'-'+Date.now()+path.extname(file.originalname))
-    }
-})
 
-const upload=multer({storage})
+
 //all blogs 
 
 router.get ('/all',async (req,res)=>{
@@ -59,18 +50,18 @@ router.get('/user',async (req,res)=>{
 })
 
 
-router.post('/add',upload.single('image'), async(req,res)=>{
+router.post('/add',async(req,res)=>{
     try {
         //date for the blog post
         const postDate = new Date().toLocaleString();
-        const imagePath=req.file.path
+    
         //use the user Id from the auth token
         
         const userId =req.user._id
 
         const blog= new Blog({
             ...req.body,date:postDate,user:userId,
-            image:imagePath
+     
         })
         await blog.save();
 
